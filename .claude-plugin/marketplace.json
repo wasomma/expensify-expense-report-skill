@@ -1,0 +1,13 @@
+{
+  "name": "expensify-expense-report-skill",
+  "owner": {
+    "name": "Wesley Fine"
+  },
+  "plugins": [
+    {
+      "name": "expensify-expense-report",
+      "source": "./",
+      "description": "Expense reports in New Expensify from Gmail receipts, entered through Claude in Chrome, never submitted for you."
+    }
+  ]
+}

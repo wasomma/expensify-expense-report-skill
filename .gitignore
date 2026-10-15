@@ -1,0 +1,13 @@
+# Personal configuration never belongs in this repo
+config.yaml
+config.local.*
+*.local.md
+*.local.yaml
+# Scratch output
+er-work/
+_edge-profile/
+_chrome-profile/
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db

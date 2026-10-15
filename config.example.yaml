@@ -1,0 +1,74 @@
+# Expense-report skill configuration.
+#
+# Copy this file to ~/.claude/expense-report/config.yaml and let the setup interview
+# fill it in, or edit it by hand. It holds personal details: keep it out of every
+# repository (the .gitignore here already excludes config.yaml).
+
+user:
+  display_name: ""            # your name as Expensify shows it, e.g. "Pat Example"
+  work_email: ""              # the Expensify login
+  personal_email: ""          # the Gmail account the Gmail connector reads for receipts
+  search_work_mailbox: false  # only true if you want the agent to search your work Gmail in Chrome
+  home_city: ""               # used in ride descriptions, e.g. "Springfield, IL"
+  home_airport: ""            # e.g. "ORD"
+  usual_places: []            # optional: places the agent should recognise, e.g. "100 Example St (office)"
+
+expensify:
+  workspace: ""               # workspace the report is submitted in, e.g. "US Policy"
+  approver: ""                # who the report submits to
+  login: "sso"                # sso | magic-code | google
+  precreated_drafts: true     # you create the draft report before the trip; the agent adds lines to it
+  categories:                 # workspace category names for each line type (read from your Expensify at setup)
+    airfare: ""
+    ride: ""
+    hotel: ""
+    per_diem: ""
+    cell: ""
+    meal: ""
+    approval: ""
+    training: ""
+    misc: ""
+
+payment:
+  corporate_card: false       # true stops the skill: it only handles reimbursable personal-card spend
+  cards:                      # last four digits only; used to recognise which receipt is yours
+    - label: "travel card"    # flights and hotels
+      last4: ""
+    - label: "rides card"     # rideshare
+      last4: ""
+
+receipts:
+  root: ""                    # folder holding one subfolder per report, e.g. "C:/Users/you/Documents/Expense Reports/2026"
+  folder_pattern: "NNYY_<trip name>"   # NN = report number this year, YY = year
+  work_dir: "C:/Users/you/AppData/Local/Temp/claude/er-work"   # short scratch folder for the PDF step
+
+sources:                      # Gmail senders to search; leave a list empty to skip that source
+  travel_agency: ""           # e.g. the confirmation address of your card's travel service
+  airlines: []                # e.g. ["info.email.aa.com"]
+  hotels: []                  # e.g. ["no-reply@hilton.com"]
+  rideshare: ["noreply@uber.com"]
+  carrier: ""                 # the "your bill is ready" sender for your phone carrier
+  other: []
+
+policy:
+  per_diem:
+    claim: true
+    basis: "destination subrate"   # destination subrate | standard rate
+    quantity: "nights"             # nights | days
+    note: ""                       # e.g. "no per diem for same-day local events"
+  cell:
+    claim: true
+    amount: 0.00                   # flat monthly amount; 0 means claim the full bill
+    roaming_in_full: true          # claim international roaming add-ons as a separate full line
+    receipt: "bill email"          # bill email | carrier PDF
+  meals:
+    mode: "receipts"               # receipts | per diem only
+  approval_line:
+    required: true                 # a $0 line whose receipt is proof of manager approval
+    evidence: "screenshot"         # screenshot | email | none
+    merchant: "mgmt approval"
+  title_pattern: "<Event> <Mon> / Cell Bill <Mon>"
+  notes: ""                        # anything the approver has trimmed or asked for before
+
+rules:
+  never_submit: true          # fixed; the skill always stops before Submit

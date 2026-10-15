@@ -1,0 +1,10 @@
+{
+  "name": "expensify-expense-report",
+  "description": "Build and enter a reimbursable expense report in New Expensify from your Gmail receipts: finds the trip, turns emails into receipt PDFs, reconciles against your conventions, enters every line with its receipt through Claude in Chrome, and stops before Submit.",
+  "author": {
+    "name": "Wesley Fine"
+  },
+  "homepage": "https://github.com/wasomma/expensify-expense-report-skill",
+  "license": "MIT",
+  "keywords": ["expensify", "expense-report", "receipts", "gmail", "chrome"]
+}
