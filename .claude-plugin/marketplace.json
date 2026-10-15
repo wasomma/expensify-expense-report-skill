@@ -1,5 +1,6 @@
 {
   "name": "expensify-expense-report-skill",
+  "description": "One plugin: an expense-report skill for New Expensify that builds reports from Gmail receipts through Claude in Chrome and never submits for you.",
   "owner": {
     "name": "Wesley Fine"
   },

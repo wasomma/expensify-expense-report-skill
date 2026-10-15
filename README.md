@@ -79,7 +79,7 @@ Say something like "set up my expense report skill", or run `/expensify-expense-
 
 ## Contributing
 
-Keep the repo free of personal data: no names, emails, addresses, card fragments, report IDs or employer details, including in examples. Run `python tools/pii_scan.py` before opening a pull request; add private names to a terms file outside the repo and pass it with `--terms`. When you verify or change a browser recipe, say so with a date in the reference file, since Expensify's UI moves.
+Keep the repo free of personal data: no names, emails, addresses, card fragments, report IDs or employer details, including in examples. Run `python tools/pii_scan.py` before opening a pull request; add private names to a terms file outside the repo and pass it with `--terms`. When you verify or change a browser recipe, say so with a date in the reference file, since Expensify's UI moves. Bump `version` in `.claude-plugin/plugin.json` with every change that users should pick up; installed copies stay on the cached version until the marketplace is updated.
 
 ## License
 

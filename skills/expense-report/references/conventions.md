@@ -26,7 +26,7 @@ Values in angle brackets come from `~/.claude/expense-report/config.yaml`.
 | Team meal | restaurant | `<categories.meal>` | "Team dinner, <event>" | photo of the receipt; note the tip if it is on the slip |
 | Training / exam | vendor | `<categories.training>` | "<cert> exam fee" | rides along with whatever report is open |
 
-Report title pattern: `<policy.title_pattern>`, e.g. "VCTS Solutioning Session Aug / Cell Bill Sep". Propose a title; rename only with the user's agreement.
+Report title pattern: `<policy.title_pattern>`, e.g. "Industry Day Sep / Cell Bill Oct". Propose a title; rename only with the user's agreement.
 
 ## Standard questions to ask after reconciling (with defaults)
 1. Rides without a receipt in Gmail: default not claimed unless the user drops a receipt in the folder.
