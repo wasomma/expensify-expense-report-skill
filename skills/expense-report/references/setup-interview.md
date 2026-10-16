@@ -1,8 +1,8 @@
 # Setup interview (first run)
 
-Run this when `~/.claude/expense-report/config.yaml` is missing, when a required field is blank, or when the user asks to redo setup. The goal is a config file that lets later runs work without asking the same questions again, plus one dry run so the user sees what the skill produces before trusting it.
+Run this when `~/.claude/expense-report/config.yaml` (or `~/.config/expense-report/config.yaml`) is missing, when a required field is blank, or when the user asks to redo setup. The goal is a config file that lets later runs work without asking the same questions again, plus one dry run so the user sees what the skill produces before trusting it.
 
-Ask in groups, one group per message, each question with a marked default. Use the question tool when the harness has one; otherwise ask in plain text. Accept "defaults" as an answer to a whole group. Do not ask for anything that is not used by the workflow.
+Ask in groups, one group per message, each question with a marked default. Use the question tool (`ask_question` / `AskUserQuestion`) when the harness has one; otherwise ask in plain text. Accept "defaults" as an answer to a whole group. Do not ask for anything that is not used by the workflow.
 
 ## 0. Tool check (before the questions)
 
@@ -10,8 +10,8 @@ Verify each item and tell the user what is missing. Nothing below needs credenti
 
 | Need | How to verify | If missing |
 |---|---|---|
-| Claude in Chrome extension | `mcp__claude-in-chrome__tabs_context_mcp` returns a tab group | Ask the user to install the extension and sign in to Chrome |
-| Gmail connector on the personal account | `search_threads` with `newer_than:1d` returns threads | Ask the user to connect Gmail for the personal account in the app's connectors |
+| Browser automation (Claude in Chrome or Antigravity `/browser`) | `mcp__claude-in-chrome__tabs_context_mcp` returns a tab group, or Antigravity `/browser` (`open_browser_url` / `list_browser_pages`) is available | In Claude Code, ask the user to install the Claude in Chrome extension; in Antigravity, use `/browser` |
+| Personal Gmail access (Gmail MCP connector or browser `.eml` fallback) | `search_threads` with `newer_than:1d` returns threads, or in Antigravity confirm the user can sign in to personal Gmail in a browser tab | Connect the Gmail MCP connector, or sign in to personal Gmail in Chrome when prompted |
 | Google Chrome (headless print) | `C:\Program Files\Google\Chrome\Application\chrome.exe` exists (or the macOS/Linux equivalent) | Edge is the fallback but returns before writing on current builds |
 | Python 3 with PyMuPDF | `python -c "import fitz"` | `pip install pymupdf` |
 | pdftotext on PATH | `pdftotext -v` | Install poppler (Git for Windows ships one in `/mingw64/bin`) |
@@ -20,8 +20,8 @@ Verify each item and tell the user what is missing. Nothing below needs credenti
 
 1. Name as Expensify displays it. (No default.)
 2. Work email used to sign in to Expensify. (No default.)
-3. How Expensify sign-in works: company SSO through the work email (default), a magic code emailed to the work address, or the Google button. With SSO the Google button fails ("requires SAML"); the user types the work email and completes SSO in the Chrome tab the extension opened.
-4. Personal Gmail address the connector reads for receipts. (No default.)
+3. How Expensify sign-in works: company SSO through the work email (default), a magic code emailed to the work address, or the Google button. With SSO the Google button fails ("requires SAML"); the user types the work email and completes SSO in the Chrome tab.
+4. Personal Gmail address that receives travel receipts. (No default.)
 5. Should the agent ever search the work mailbox in Chrome? Default: no; the user supplies anything that only exists there.
 
 ## 2. Expensify workspace
