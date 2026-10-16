@@ -29,8 +29,8 @@ It was built for one traveler's real workflow and then generalized: everything p
 | Browser automation | **Claude in Chrome** extension (Claude Code) or built-in `/browser` Chrome session (Antigravity) |
 | Personal Gmail access | **Gmail connector / MCP** (`search_threads`, `get_message`) or **personal Gmail in Chrome** (`Show original` `.eml` parsed by the helper scripts) |
 | Google Chrome | Used headlessly to print emails to PDF (Edge works less reliably) |
-| Python 3 with PyMuPDF | `pip install pymupdf` |
-| `pdftotext` on PATH | Part of poppler; Git for Windows ships one |
+| Python 3 with PyMuPDF | `pip install pymupdf` (handles PDF trimming, merging, and text verification) |
+| `pdftotext` (optional) | Part of poppler / Git for Windows (`/mingw64/bin`); only needed if `pymupdf` is absent |
 
 Windows is the tested platform. The Chrome recipe is browser-side and should carry over to macOS; the scripts take forward-slash paths.
 

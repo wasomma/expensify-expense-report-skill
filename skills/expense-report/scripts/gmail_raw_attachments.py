@@ -23,10 +23,10 @@ def load_mime_message(path):
             if isinstance(data, dict) and "raw" in data:
                 b = data["raw"]
                 b += "=" * (-len(b) % 4)
-                return email.message_from_bytes(base64.urlsafe_b64decode(b))
+                return email.message_from_bytes(base64.urlsafe_b64decode(b).lstrip(b"\xef\xbb\xbf\r\n\t "))
         except json.JSONDecodeError:
             pass
-    return email.message_from_bytes(raw_bytes)
+    return email.message_from_bytes(raw_bytes.lstrip(b"\xef\xbb\xbf\r\n\t "))
 
 
 def main():
