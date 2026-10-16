@@ -12,17 +12,18 @@ extension, and a string that must appear in the PDF text (usually the total).
 --trim-after keeps pages up to and including the first page containing that text
 (travel-agency confirmations often carry several pages of terms after the payment block).
 
-Requires: Google Chrome (preferred) or Microsoft Edge for the headless print, pdftotext
-on PATH, PyMuPDF (fitz). Keep --work short: paths over ~240 characters break Edge and
-Python on Windows. Copy saved tool results into --work first if their path is long.
+Requires: Google Chrome (preferred) or Microsoft Edge for the headless print, and
+PyMuPDF (fitz) (or pdftotext on PATH). Keep --work short: paths over ~240 characters break
+Edge and Python on Windows. Copy saved tool results into --work first if their path is long.
 """
-import argparse, base64, email, email.policy, html, json, os, subprocess, sys, time
+import argparse, base64, email, email.policy, html, json, os, shutil, subprocess, sys, time
 
 EDGE = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 CHROME = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
 
 
 def _parse_mime_bytes(raw_bytes):
+    raw_bytes = raw_bytes.lstrip(b"\xef\xbb\xbf\r\n\t ")
     mime_msg = email.message_from_bytes(raw_bytes, policy=email.policy.default)
     html_part = mime_msg.get_body(preferencelist=("html",))
     plain_part = mime_msg.get_body(preferencelist=("plain",))
@@ -99,8 +100,17 @@ def trim_after(pdf_path, marker):
 
 
 def pdf_text(pdf_path):
-    r = subprocess.run(["pdftotext", pdf_path, "-"], capture_output=True, timeout=60)
-    return r.stdout.decode("utf-8", "replace")
+    try:
+        import fitz
+        with fitz.open(pdf_path) as d:
+            return "\n".join(p.get_text() for p in d)
+    except ImportError:
+        exe = "pdftotext"
+        git_pdftotext = r"C:\Program Files\Git\mingw64\bin\pdftotext.exe"
+        if not shutil.which(exe) and os.path.exists(git_pdftotext):
+            exe = git_pdftotext
+        r = subprocess.run([exe, pdf_path, "-"], capture_output=True, timeout=60)
+        return r.stdout.decode("utf-8", "replace")
 
 
 def main():

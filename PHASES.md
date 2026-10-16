@@ -19,3 +19,8 @@
   - [x] Update `skills/expense-report/SKILL.md`, `references/expensify-web-entry.md`, `references/receipt-sources.md`, `references/setup-interview.md`, `config.example.yaml`, and `README.md` for dual-harness operation.
   - [x] Verify scripts and run `python tools/pii_scan.py`.
   - [x] Seed `~/.claude/expense-report/config.yaml` and register `~/.gemini/config/plugins/expensify-expense-report`.
+- [x] **Phase 2.1: Windows PowerShell / Antigravity Verification (`fix/pymupdf-text-fallback`)**
+  - [x] Use `fitz` (PyMuPDF) first in `pdf_text()` in `scripts/gmail_html_to_pdf.py` (with fallback to `pdftotext` / Git for Windows `pdftotext.exe`) so PowerShell users don't need `pdftotext` on system `PATH`.
+  - [x] Strip leading UTF-8 BOM (`\xef\xbb\xbf`) and whitespace in `scripts/gmail_html_to_pdf.py` and `scripts/gmail_raw_attachments.py` so `.eml` files saved by PowerShell `Set-Content -Encoding UTF8` parse RFC 822 headers cleanly.
+  - [x] End-to-end headless Chrome PDF print + `fitz` text verification smoke test passed in PowerShell.
+

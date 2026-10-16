@@ -13,8 +13,8 @@ Verify each item and tell the user what is missing. Nothing below needs credenti
 | Browser automation (Claude in Chrome or Antigravity `/browser`) | `mcp__claude-in-chrome__tabs_context_mcp` returns a tab group, or Antigravity `/browser` (`open_browser_url` / `list_browser_pages`) is available | In Claude Code, ask the user to install the Claude in Chrome extension; in Antigravity, use `/browser` |
 | Personal Gmail access (Gmail MCP connector or browser `.eml` fallback) | `search_threads` with `newer_than:1d` returns threads, or in Antigravity confirm the user can sign in to personal Gmail in a browser tab | Connect the Gmail MCP connector, or sign in to personal Gmail in Chrome when prompted |
 | Google Chrome (headless print) | `C:\Program Files\Google\Chrome\Application\chrome.exe` exists (or the macOS/Linux equivalent) | Edge is the fallback but returns before writing on current builds |
-| Python 3 with PyMuPDF | `python -c "import fitz"` | `pip install pymupdf` |
-| pdftotext on PATH | `pdftotext -v` | Install poppler (Git for Windows ships one in `/mingw64/bin`) |
+| Python 3 with PyMuPDF | `python -c "import fitz"` | `pip install pymupdf` (handles PDF trimming, merging, and text verification) |
+| pdftotext (optional fallback) | `pdftotext -v` or `C:\Program Files\Git\mingw64\bin\pdftotext.exe` | Optional when PyMuPDF (`fitz`) is installed |
 
 ## 1. Identity and accounts
 
