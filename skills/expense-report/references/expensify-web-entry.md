@@ -1,26 +1,40 @@
-# Entering lines in New Expensify through Claude in Chrome
+# Entering lines in New Expensify in Chrome (Claude in Chrome & Antigravity `/browser`)
 
-Verified on new.expensify.com with the Chrome extension. Load the tools in one ToolSearch: tabs_context_mcp, navigate, computer, find, read_page, get_page_text, javascript_tool, browser_batch, file_upload, tabs_create_mcp, tabs_close_mcp.
+Verified on `new.expensify.com` (2026-10-15). All DOM selectors, React value setters, and the `#probeX` + synthetic `DataTransfer` `DragEvent('drop')` receipt upload work identically across **Claude in Chrome** and **Google Antigravity (`/browser`)**.
+
+## Harness Tool Equivalence
+
+| Action | Claude in Chrome (`mcp__claude-in-chrome__*`) | Google Antigravity (`/browser` tools) |
+|---|---|---|
+| Open / navigate URL | `tabs_context_mcp` + `navigate` | `open_browser_url` (or `list_browser_pages` / `select_browser_page`) |
+| Find / inspect DOM elements | `find` / `read_page` | `read_browser_page` / `get_dom_tree` / `execute_browser_javascript` |
+| Read visible page text | `get_page_text` | `read_browser_page` or `execute_browser_javascript` (`document.body.innerText`) |
+| Run page JavaScript | `javascript_tool` | `execute_browser_javascript` |
+| Click / type / scroll | `computer` (`left_click`, `type`, `key`, `scroll`) | `click_browser_pixel`, `type_browser_text`, `press_browser_key`, `scroll_browser_page` (or JS `.click()`) |
+| Populate `#probeX` file input | `file_upload` on the `#probeX` ref | `upload_file_to_browser` targeting `#probeX` (`input#probeX`) |
+| Batch multiple actions | `browser_batch` | Sequential or batched `/browser` calls / combined JS |
+
+In Claude Code, load the tools in one ToolSearch: `tabs_context_mcp`, `navigate`, `computer`, `find`, `read_page`, `get_page_text`, `javascript_tool`, `browser_batch`, `file_upload`, `tabs_create_mcp`, `tabs_close_mcp`.
 
 ## Setup
-1. `tabs_context_mcp` (createIfEmpty), then navigate to `https://new.expensify.com/home`. If the sign-in page appears ("Phone or email"), stop and ask the user to sign in in that tab. With company SSO the Google button fails with "requires SAML"; the user types the work email and completes SSO. Sessions expire between days.
-2. Reports list: `https://new.expensify.com/search?q=type%3Aexpense-report%20status%3Aall`. `find` the user's draft row (From = the user, status Draft) and click its **View** button; the report opens in a right pane at `/search/r/<reportID>`. Keep the reportID. A JS `.click()` on the row does not open it; the ref click on View does.
-3. `get_page_text` on a report pane gives every line (date, merchant, description, category, amount) plus the total. Use it to verify after each line.
+1. Open or attach to the browser (`tabs_context_mcp` in Claude in Chrome, or `open_browser_url` in Antigravity), then navigate to `https://new.expensify.com/home`. If the sign-in page appears ("Phone or email"), stop and ask the user to sign in in that tab. With company SSO the Google button fails with "requires SAML"; the user types the work email and completes SSO. Sessions expire between days.
+2. Reports list: `https://new.expensify.com/search?q=type%3Aexpense-report%20status%3Aall`. Find the user's draft row (From = the user, status Draft) and click its **View** button; the report opens in a right pane at `/search/r/<reportID>`. Keep the reportID. A JS `.click()` on the row does not open it; the ref/pixel click on View does.
+3. Read the page text (`get_page_text` or `read_browser_page`) on a report pane to see every line (date, merchant, description, category, amount) plus the total. Use it to verify after each line.
 
 ## Create a manual line (airfare, rides, hotels, cell, approval)
 1. Navigate directly to `https://new.expensify.com/create/submit/start/1/<reportID>/manual`. A full navigation resets page-level patches (step 2), so repeat them every time.
-2. Run this JavaScript once per page load: patch every `input[type=file]` so `.click()` is a no-op (prevents the native picker, which the extension cannot see), and add a probe input:
+2. Run this JavaScript once per page load: patch every `input[type=file]` so `.click()` is a no-op (prevents the native picker, which the browser automation cannot see), and add a probe input:
    ```js
    for (const el of document.querySelectorAll('input[type=file]')) { el.click=function(){}; }
    if(!document.getElementById('probeX')){ const t=document.createElement('input'); t.type='file'; t.id='probeX'; t.setAttribute('aria-label','ProbeX'); t.style.cssText='position:fixed;top:40px;left:0;z-index:99999;width:200px;height:30px'; document.body.appendChild(t); }
    ```
-3. `find` "Amount textbox, Merchant textbox, Description textbox, Category button, Date combobox, 'Upload receipt' button, ProbeX file input, and 'Create expense' button" to get refs. These are the only refs a line needs.
-4. Text fields: `left_click` the ref, then `computer type`. Verify with JS: `document.querySelector('[aria-label="Amount"]').value` (and Merchant, Description).
+3. Locate "Amount textbox, Merchant textbox, Description textbox, Category button, Date combobox, 'Upload receipt' button, ProbeX file input, and 'Create expense' button" (`find` in Claude in Chrome, or DOM inspection in Antigravity). These are the only targets a line needs.
+4. Text fields: click the field and type (`computer type` or `type_browser_text`). Verify with JS: `document.querySelector('[aria-label="Amount"]').value` (and Merchant, Description).
 5. Date: typing into the combobox does nothing. Click it to open the calendar, then JS-click the day: `[...document.querySelectorAll('button,[role=button]')].find(e=>(e.getAttribute('aria-label')||'').includes('October 12, 2026')).click()`. Verify `[aria-label="Date"]` reads `2026-10-12`. The calendar opens on the current month; use its month arrows for older dates.
 6. Category: click the Category button, then JS-click the option: `[...document.querySelectorAll('[role=option]')].find(e=>e.innerText.trim()==='<category name>').click()`. Only recently used categories render without searching; for a new one, click the picker's "Search" textbox, type part of the name, then click the option. Verify the Category button's aria-label reads "Category, <name>".
    - The $0.00 approval line works exactly like any other manual line: amount 0.00, merchant and description per config, the approval category, date of the approval, PNG screenshot as receipt.
 7. Receipt (the only part that needs a trick):
-   - `file_upload` the PDF or PNG to the ProbeX ref (this is how the file gets into the page; the extension cannot pass a file any other way).
+   - Upload the PDF or PNG to the `#probeX` input (`file_upload` in Claude in Chrome, or `upload_file_to_browser` in Antigravity).
    - Click the "Upload receipt" control. It navigates to Expensify's Receipt page with an "Upload receipt / or drag and drop it here" zone. Its own file input ignores programmatic files.
    - Dispatch a drop on the zone:
      ```js

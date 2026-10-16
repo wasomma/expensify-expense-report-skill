@@ -1,7 +1,7 @@
 {
   "name": "expensify-expense-report",
-  "version": "1.0.0",
-  "description": "Build and enter a reimbursable expense report in New Expensify from your Gmail receipts: finds the trip, turns emails into receipt PDFs, reconciles against your conventions, enters every line with its receipt through Claude in Chrome, and stops before Submit.",
+  "version": "1.1.0",
+  "description": "Build and enter a reimbursable expense report in New Expensify from your Gmail receipts: finds the trip, turns emails into receipt PDFs, reconciles against your conventions, enters every line with its receipt in Chrome (Claude in Chrome or Antigravity /browser), and stops before Submit.",
   "author": {
     "name": "Wesley Fine"
   },

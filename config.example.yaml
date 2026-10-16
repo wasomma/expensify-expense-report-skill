@@ -1,13 +1,13 @@
-# Expense-report skill configuration.
+# Expense-report skill configuration (shared by Claude Code and Google Antigravity).
 #
-# Copy this file to ~/.claude/expense-report/config.yaml and let the setup interview
-# fill it in, or edit it by hand. It holds personal details: keep it out of every
-# repository (the .gitignore here already excludes config.yaml).
+# Copy this file to ~/.claude/expense-report/config.yaml (or ~/.config/expense-report/config.yaml)
+# and let the setup interview fill it in, or edit it by hand. It holds personal details:
+# keep it out of every repository (the .gitignore here already excludes config.yaml).
 
 user:
   display_name: ""            # your name as Expensify shows it, e.g. "Pat Example"
   work_email: ""              # the Expensify login
-  personal_email: ""          # the Gmail account the Gmail connector reads for receipts
+  personal_email: ""          # the personal Gmail account that receives travel receipts
   search_work_mailbox: false  # only true if you want the agent to search your work Gmail in Chrome
   home_city: ""               # used in ride descriptions, e.g. "Springfield, IL"
   home_airport: ""            # e.g. "ORD"

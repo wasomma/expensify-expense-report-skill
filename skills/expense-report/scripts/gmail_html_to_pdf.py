@@ -1,14 +1,13 @@
-"""Turn Gmail messages (saved get_message FULL_CONTENT results) into receipt PDFs.
+"""Turn Gmail messages (saved get_message FULL_CONTENT/RAW JSON or .eml files) into receipt PDFs.
 
 Usage (Windows paths shown with forward slashes; quote paths that contain spaces):
   python gmail_html_to_pdf.py --work C:/Users/<you>/AppData/Local/Temp/claude/er-work ^
       --out "<receipts root>/0126_Example Trip" ^
-      --item <tool-result.txt> "Ride 1 - 0101 Home to Airport" "$42.14" ^
-      --item <tool-result.txt> "Flights - <airline> <locator> via <agency>" "$566.81" --trim-after "Card Number"
+      --item <tool-result-or-msg.eml> "Ride 1 - 0101 Home to Airport" "$42.14" ^
+      --item <tool-result-or-msg.eml> "Flights - <airline> <locator> via <agency>" "$566.81" --trim-after "Card Number"
 
-Each --item takes: the saved tool-result file (JSON from get_message FULL_CONTENT; the
-Gmail connector writes it under ~/.claude/projects/<project>/<session>/tool-results/
-when the result is large, or write the JSON yourself), the output name without
+Each --item takes: the saved message file (JSON from get_message FULL_CONTENT or RAW, or a
+raw RFC 822 .eml file downloaded from Gmail's "Show original" view), the output name without
 extension, and a string that must appear in the PDF text (usually the total).
 --trim-after keeps pages up to and including the first page containing that text
 (travel-agency confirmations often carry several pages of terms after the payment block).
@@ -17,16 +16,40 @@ Requires: Google Chrome (preferred) or Microsoft Edge for the headless print, pd
 on PATH, PyMuPDF (fitz). Keep --work short: paths over ~240 characters break Edge and
 Python on Windows. Copy saved tool results into --work first if their path is long.
 """
-import argparse, html, json, os, subprocess, sys, time
+import argparse, base64, email, email.policy, html, json, os, subprocess, sys, time
 
 EDGE = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 CHROME = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
 
 
+def _parse_mime_bytes(raw_bytes):
+    mime_msg = email.message_from_bytes(raw_bytes, policy=email.policy.default)
+    html_part = mime_msg.get_body(preferencelist=("html",))
+    plain_part = mime_msg.get_body(preferencelist=("plain",))
+    return {
+        "subject": str(mime_msg.get("Subject", "")),
+        "htmlBody": html_part.get_content() if html_part else "",
+        "plaintextBody": plain_part.get_content() if plain_part else "",
+    }
+
+
 def load_message(path):
-    with open(path, encoding="utf-8") as f:
-        raw = f.read()
-    return json.loads(raw[raw.find("{"):])
+    with open(path, "rb") as f:
+        raw_bytes = f.read()
+    raw_text = raw_bytes.decode("utf-8", "replace")
+    brace = raw_text.find("{")
+    if not path.lower().endswith(".eml") and brace != -1:
+        try:
+            data = json.loads(raw_text[brace:])
+            if isinstance(data, dict):
+                if "raw" in data and not (data.get("htmlBody") or data.get("html_body") or data.get("plaintextBody") or data.get("plaintext_body")):
+                    b = data["raw"]
+                    b += "=" * (-len(b) % 4)
+                    return _parse_mime_bytes(base64.urlsafe_b64decode(b))
+                return data
+        except json.JSONDecodeError:
+            pass
+    return _parse_mime_bytes(raw_bytes)
 
 
 def to_html(msg):

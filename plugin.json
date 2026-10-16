@@ -1,0 +1,11 @@
+{
+  "name": "expensify-expense-report",
+  "displayName": "New Expensify Expense Report Builder",
+  "version": "1.1.0",
+  "description": "Build and enter reimbursable expense reports in New Expensify from Gmail receipts: finds the trip, converts emails into receipt PDFs, reconciles against your policy, enters every line with its receipt in Chrome, and stops before Submit.",
+  "suggestedPrompts": [
+    "Build and enter my latest expense report in New Expensify",
+    "Reconcile receipts in my current trip folder for New Expensify",
+    "Set up my expense report configuration"
+  ]
+}
