@@ -1,6 +1,6 @@
 # expensify-expense-report-skill
 
-Open-source dual-harness skill (Claude Code + Google Antigravity) that builds and enters reimbursable New Expensify (`https://new.expensify.com`) expense reports from Gmail receipts while never clicking **Submit**.
+Open-source dual-harness skill (Claude Code + Google Antigravity) that builds and enters reimbursable Expensify expense reports from Gmail receipts while never clicking **Submit**. Classic `https://www.expensify.com` is the default (since v1.2.0, 2026-11-19); New Expensify (`https://new.expensify.com`) froze the Chrome tab and is a fallback only.
 
 ## Repository Structure
 
@@ -12,7 +12,7 @@ Open-source dual-harness skill (Claude Code + Google Antigravity) that builds an
   * `setup-interview.md` — First-run interactive setup interview to generate `config.yaml`.
   * `receipt-sources.md` — Gmail receipt search & retrieval (via Gmail MCP connector or browser `mail.google.com` + `.eml` download).
   * `conventions.md` — Reconciliation rules, standard questions, per diem, cell claims, and description conventions.
-  * `expensify-web-entry.md` — Browser automation recipe for New Expensify supporting both Claude in Chrome (`mcp__claude-in-chrome__*`) and Antigravity (`/browser` tools), using the `#probeX` + synthetic `DataTransfer` `DragEvent('drop')` receipt upload pattern.
+  * `expensify-web-entry.md` — Browser automation recipe supporting both Claude in Chrome (`mcp__claude-in-chrome__*`) and Antigravity (`/browser` tools): classic www.expensify.com first (New Expense dialog, receipt uploaded to `input[name=expense_attach]`, Mark As Cash), then the New Expensify fallback with the `#probeX` + synthetic `DataTransfer` `DragEvent('drop')` receipt upload pattern.
 * `skills/expense-report/scripts/`
   * `gmail_html_to_pdf.py` — Converts Gmail `FULL_CONTENT` JSON or raw `.eml` files to PDF via headless Chrome/Edge, optionally trims trailing boilerplate pages with PyMuPDF (`fitz`), and verifies expected text via `pdftotext`.
   * `gmail_raw_attachments.py` — Extracts PDF/image attachments from Gmail `RAW` JSON or `.eml` RFC 822 files.
