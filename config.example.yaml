@@ -14,7 +14,7 @@ user:
   usual_places: []            # optional: places the agent should recognise, e.g. "100 Example St (office)"
 
 expensify:
-  workspace: ""               # workspace the report is submitted in, e.g. "US Policy"
+  workspace: ""               # workspace the report is submitted in, e.g. "Example Co Travel"
   approver: ""                # who the report submits to
   login: "sso"                # sso | magic-code | google
   precreated_drafts: true     # you create the draft report before the trip; the agent adds lines to it

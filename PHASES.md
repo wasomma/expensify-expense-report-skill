@@ -4,7 +4,7 @@
 
 1. **Gmail Fetching Strategy:** Support both Gmail MCP tools (`search_threads`, `get_thread`, `get_message`) when a Gmail connector/MCP is configured, and fall back to browser-driven Gmail (`mail.google.com` + `.eml` RFC 822 download parsed by `gmail_html_to_pdf.py` and `gmail_raw_attachments.py`) when running in Antigravity without a Gmail MCP.
 2. **Browser Driving Strategy:** Map `expensify-web-entry.md` to both Claude in Chrome (`mcp__claude-in-chrome__*`) and Antigravity's built-in `/browser` tools (`open_browser_url`, `execute_browser_javascript`, `upload_file_to_browser`, `click_browser_pixel`), reusing the identical DOM JS and `#probeX` synthetic `DataTransfer` `DragEvent('drop')` recipes.
-3. **Local Machine Setup:** Update the repo on branch `feat/dual-harness-antigravity`, register the plugin in `~/.gemini/config/plugins/expensify-expense-report`, and seed `~/.claude/expense-report/config.yaml` from existing private `~/.claude/skills/onearc-expense-report` settings.
+3. **Local Machine Setup:** Update the repo on branch `feat/dual-harness-antigravity`, register the plugin in `~/.gemini/config/plugins/expensify-expense-report`, and seed `~/.claude/expense-report/config.yaml` from the maintainer's existing private skill settings.
 
 ---
 
