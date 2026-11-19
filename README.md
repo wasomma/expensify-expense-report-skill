@@ -88,7 +88,7 @@ Say something like "set up my expense report skill", or run `/expensify-expense-
 
 - Corporate cards and mixed reports are out of scope.
 - Travel-agency and rideshare websites need your login each time; the emails are enough and are what approvers have accepted.
-- Expensify flags manual expenses with "Awaiting merge with card transaction" and sometimes "Date differs from scanned receipt". Both are notices, not violations; the skill can clear the first on request.
+- Expensify flags manual expenses with "Awaiting merge with card transaction" and sometimes "Date differs from scanned receipt". Both are notices, not violations. The skill clears the first with Mark As Cash on every line when `expensify.always_mark_as_cash` is true in your config, and otherwise on request.
 - Per diem rates are read-only once a line exists; a wrong subrate means delete and recreate.
 
 ## Contributing
