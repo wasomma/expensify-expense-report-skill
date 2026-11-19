@@ -62,7 +62,7 @@ Verify each item and tell the user what is missing. Nothing below needs credenti
 
 ## 8. Categories (from the user's own Expensify)
 
-With the user signed in, open `https://new.expensify.com/create/submit/start/1/<any draft reportID>/manual`, click Category, and read every `[role=option]` text (type a letter in the picker's Search box to page through the full list; only recent categories render without searching). Propose the mapping for airfare, ride, hotel, per diem, cell, meal, approval, training and misc, and confirm it. Store the exact category names.
+With the user signed in, open any draft on classic (`https://www.expensify.com/report?reportID=<reportID>`), click Add Expenses > New Expense, click the Category search field and read the options in its dropdown (type a letter to narrow a long list), then close the dialog without saving. Reading the whole list this way is not yet verified on classic. If it fails, tell the user and use New Expensify instead: open `https://new.expensify.com/create/submit/start/1/<any draft reportID>/manual`, click Category, and read every `[role=option]` text (type a letter in the picker's Search box to page through the full list; only recent categories render without searching). Propose the mapping for airfare, ride, hotel, per diem, cell, meal, approval, training and misc, and confirm it. Store the exact category names.
 
 ## 9. Write the config
 

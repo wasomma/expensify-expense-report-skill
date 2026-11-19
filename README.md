@@ -1,6 +1,6 @@
 # Expensify expense-report skill (Claude Code & Google Antigravity)
 
-A dual-harness agent skill (for **Claude Code** and **Google Antigravity**) that does the tedious part of a travel expense report: it finds the trip in your Gmail, turns the booking confirmations, rideshare receipts, hotel folios and carrier bill into receipt PDFs, reconciles them against your own coding conventions, asks you the handful of questions a human would ask, and enters every line with its receipt into your draft report in New Expensify. It stops before Submit. You click that.
+A dual-harness agent skill (for **Claude Code** and **Google Antigravity**) that does the tedious part of a travel expense report: it finds the trip in your Gmail, turns the booking confirmations, rideshare receipts, hotel folios and carrier bill into receipt PDFs, reconciles them against your own coding conventions, asks you the handful of questions a human would ask, and enters every line with its receipt into your draft report in Expensify (classic www.expensify.com). It stops before Submit. You click that.
 
 It was built for one traveler's real workflow and then generalized: everything personal lives in a config file on your machine that a setup interview writes for you. Nothing in this repo knows who you are.
 
@@ -8,7 +8,7 @@ It was built for one traveler's real workflow and then generalized: everything p
 
 - You pay on personal cards and get reimbursed (no corporate card on the report).
 - Your receipts arrive in a personal Gmail account.
-- Your company uses New Expensify (new.expensify.com), and you create the draft report yourself before the trip.
+- Your company uses Expensify, and you create the draft report yourself before the trip. The skill works in classic www.expensify.com; New Expensify (new.expensify.com) froze the Chrome tab too often to be the default and is kept only as a fallback.
 - You run either:
   - **Claude Code** (with the **Claude in Chrome** extension and the **Gmail** connector), or
   - **Google Antigravity** (using Antigravity's built-in `/browser` Chrome automation, plus either a Gmail MCP server or Gmail's browser `.eml` "Show original" view).
@@ -82,7 +82,7 @@ Say something like "set up my expense report skill", or run `/expensify-expense-
 
 - **Gmail**: vendor-sender searches in a date window, then the final receipt emails fetched as HTML (or `.eml` RFC 822 original) and printed to PDF with headless Chrome; attachments pulled out of the RAW MIME / `.eml` message, so nothing needs a manual browser download.
 - **Reconciliation**: one markdown table per report, written before entry and updated after every line.
-- **Expensify**: driven in Chrome through **Claude in Chrome** or **Antigravity `/browser`**. The receipt step hands the file to Expensify's own upload zone through `#probeX` and a synthetic `DataTransfer` drop event, because the page ignores programmatic file inputs. Dates and categories are picked through the real calendar and picker. Every form is read back before Create is clicked. Details in [expensify-web-entry.md](skills/expense-report/references/expensify-web-entry.md).
+- **Expensify**: driven in Chrome through **Claude in Chrome** or **Antigravity `/browser`** on classic www.expensify.com. Each line goes through the New Expense dialog; the receipt is uploaded straight to the dialog's own attachment input. Dates and categories are picked through the real calendar and category list, every form is read back before Save, and the report page is reloaded after each line so the check reads what the server holds. The New Expensify fallback hands the receipt to Expensify's upload zone through `#probeX` and a synthetic `DataTransfer` drop event, because that page ignores programmatic file inputs. Details in [expensify-web-entry.md](skills/expense-report/references/expensify-web-entry.md).
 
 ## Known limits
 

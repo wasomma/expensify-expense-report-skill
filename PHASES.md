@@ -23,4 +23,8 @@
   - [x] Use `fitz` (PyMuPDF) first in `pdf_text()` in `scripts/gmail_html_to_pdf.py` (with fallback to `pdftotext` / Git for Windows `pdftotext.exe`) so PowerShell users don't need `pdftotext` on system `PATH`.
   - [x] Strip leading UTF-8 BOM (`\xef\xbb\xbf`) and whitespace in `scripts/gmail_html_to_pdf.py` and `scripts/gmail_raw_attachments.py` so `.eml` files saved by PowerShell `Set-Content -Encoding UTF8` parse RFC 822 headers cleanly.
   - [x] End-to-end headless Chrome PDF print + `fitz` text verification smoke test passed in PowerShell.
+- [x] **Phase 2.2: Classic Expensify by default (`feat/classic-expensify-default`, v1.2.0, 2026-11-19)**
+  - [x] New Expensify froze the Chrome tab on several reports; classic www.expensify.com is now the default for opening the report, entering lines, Mark As Cash and checks.
+  - [x] Classic recipe in `references/expensify-web-entry.md`: New Expense dialog, jQuery UI date pick, category search, receipt upload to `input[name=expense_attach]` (no drop trick), Save, never Escape, Mark As Cash per line, server check by reloading the report page. New Expensify recipe kept as a fallback.
+  - [ ] Still untried on classic: per diem, attendees, report rename, report creation, the category read in the setup interview, and the Antigravity `/browser` mapping.
 

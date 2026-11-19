@@ -4,8 +4,8 @@ Values in angle brackets come from `~/.claude/expense-report/config.yaml`.
 
 ## Where things live
 - Receipts: `<receipts.root>/<folder_pattern>/`, receipts only, plus the `_<NN><YY> reconciliation.md` checkpoint this skill writes.
-- Expensify: New Expensify (new.expensify.com), workspace `<expensify.workspace>`, "Submits to `<expensify.approver>`". Reports the user approves for other people appear in the same lists; ignore them.
-- The user pre-creates the draft report before the trip (`expensify.precreated_drafts`). Auto-named drafts look like "<Name> Expenses on"; find the user's own draft in the reports list (From = the user, status Draft) and add lines to it. Do not create a second report.
+- Expensify: enter and check reports on classic **www.expensify.com** (2026-11-19; New Expensify at new.expensify.com froze the Chrome tab), workspace `<expensify.workspace>`, "Submits to `<expensify.approver>`". Reports the user approves for other people appear in the same lists; ignore them.
+- The user pre-creates the draft report before the trip (`expensify.precreated_drafts`). Auto-named drafts look like "<Name> Expenses on"; find the user's own draft (From = the user, status Draft) and add lines to it. Do not create a second report. The long report ID opens the classic page `https://www.expensify.com/report?reportID=<reportID>` (New Expensify shows the same number in `/search/r/<reportID>`).
 
 ## Payment
 - No corporate card. Everything is Cash / Reimbursable.
