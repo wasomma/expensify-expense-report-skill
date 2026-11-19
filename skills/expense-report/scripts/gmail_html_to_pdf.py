@@ -87,8 +87,9 @@ def trim_after(pdf_path, marker):
     d = fitz.open(pdf_path)
     last = next((i for i, p in enumerate(d) if marker in p.get_text()), None)
     if last is None or last == d.page_count - 1:
+        n = d.page_count  # read before close(): a closed document raises on page_count
         d.close()
-        return d.page_count if last is None else last + 1
+        return n if last is None else last + 1
     out = fitz.open()
     out.insert_pdf(d, from_page=0, to_page=last)
     d.close()

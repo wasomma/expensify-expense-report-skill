@@ -18,6 +18,7 @@ expensify:
   approver: ""                # who the report submits to
   login: "sso"                # sso | magic-code | google
   precreated_drafts: true     # you create the draft report before the trip; the agent adds lines to it
+  always_mark_as_cash: false  # true: clear "Awaiting merge with card transaction" on every line before hand-off, without asking
   categories:                 # workspace category names for each line type (read from your Expensify at setup)
     airfare: ""
     ride: ""

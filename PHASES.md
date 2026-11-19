@@ -27,4 +27,8 @@
   - [x] New Expensify froze the Chrome tab on several reports; classic www.expensify.com is now the default for opening the report, entering lines, Mark As Cash and checks.
   - [x] Classic recipe in `references/expensify-web-entry.md`: New Expense dialog, jQuery UI date pick, category search, receipt upload to `input[name=expense_attach]` (no drop trick), Save, never Escape, Mark As Cash per line, server check by reloading the report page. New Expensify recipe kept as a fallback.
   - [ ] Still untried on classic: per diem, attendees, report rename, report creation, the category read in the setup interview, and the Antigravity `/browser` mapping.
+- [x] **Phase 2.3: Ported maintainer fixes (`fix/port-private-fixes`, v1.3.0, 2026-11-19)**
+  - [x] `trim_after()` in `scripts/gmail_html_to_pdf.py` read `page_count` after `close()` and raised `ValueError` whenever the marker was missing or on the last page.
+  - [x] New Expensify fallback: confirm lines on the classic report page, move in-app with `history.pushState` instead of full reloads, JS by aria-label for fields and Upload receipt, visible Save on rename, Create report flow, Attendees picker, deleting lines from a draft, per diem times can stay at 12:00 AM, JS time limit on long loops.
+  - [x] New config flag `expensify.always_mark_as_cash` (default false) with setup-interview question 10; when true the agent clears "Awaiting merge" on every line before hand-off.
 

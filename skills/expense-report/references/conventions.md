@@ -43,5 +43,5 @@ Report title pattern: `<policy.title_pattern>`, e.g. "Trade Show Sep / Cell Bill
 ## Watch-outs
 - A booking expensed early (flights-only report before the trip) must not be claimed again on the trip report. Check the previous folder and the paid reports list.
 - Two-traveler bookings: record which share is claimed in the reconciliation file.
-- Expensify shows "Awaiting merge with card transaction" on manual expenses while it waits for a card feed that may not exist, and "Date differs from scanned receipt" when the receipt's charge date is the day after the expense. Both are notices, not violations; paid reports have carried them.
+- Expensify shows "Awaiting merge with card transaction" on manual expenses while it waits for a card feed that may not exist, and "Date differs from scanned receipt" when the receipt's charge date is the day after the expense. Both are notices, not violations; paid reports have carried them. When `expensify.always_mark_as_cash` is true, clear the first with Mark As Cash on every line before hand-off; otherwise report both and offer.
 - Personal rides, meals and weekend trips in the same Gmail window are easy to sweep in by mistake. List them under "seen but not claimed" so the user can pull any back in.

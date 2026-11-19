@@ -30,35 +30,36 @@ Verify each item and tell the user what is missing. Nothing below needs credenti
 7. Approver the report submits to. (Same source.)
 8. Does the user create the draft report before the trip? Default: yes; the agent adds lines to that draft and never creates a second report. If no, the agent creates the report from the first expense and says so.
 9. Report title pattern. Default: `<Event> <Mon> / Cell Bill <Mon>`; the agent proposes a title and the user confirms the rename.
+10. Clear Expensify's "Awaiting merge with card transaction" notice on every line with Mark As Cash before hand-off, without asking (`expensify.always_mark_as_cash`)? Default: no; the agent reports the notice and offers to clear it. Manual expenses carry it while Expensify waits for a card-feed match; it is a notice, not a violation, so say yes only if your approver or finance team wants it gone.
 
 ## 3. Payment
 
-10. Any company card? If yes, stop: this skill only handles reimbursable spend on personal cards, and mixed reports need a different flow.
-11. Personal cards, label and last four digits only: which card books flights and hotels, which card pays rides. The last four are used to tell the user's receipts apart from family or shared profiles.
+11. Any company card? If yes, stop: this skill only handles reimbursable spend on personal cards, and mixed reports need a different flow.
+12. Personal cards, label and last four digits only: which card books flights and hotels, which card pays rides. The last four are used to tell the user's receipts apart from family or shared profiles.
 
 ## 4. Home base
 
-12. Home city and airport. Default: derive from the most recent rideshare receipt's pickup address and the first flight's origin, then confirm.
-13. Addresses to recognise in ride receipts (office, usual venues). Optional.
+13. Home city and airport. Default: derive from the most recent rideshare receipt's pickup address and the first flight's origin, then confirm.
+14. Addresses to recognise in ride receipts (office, usual venues). Optional.
 
 ## 5. Receipts on disk
 
-14. Receipts root folder (one subfolder per report). Default: `Documents/Expense Reports/<year>`.
-15. Folder naming pattern. Default: `NNYY_<trip name>` where NN is the running report number for the year.
-16. Short scratch folder for the PDF step. Default: `C:/Users/<you>/AppData/Local/Temp/claude/er-work`.
+15. Receipts root folder (one subfolder per report). Default: `Documents/Expense Reports/<year>`.
+16. Folder naming pattern. Default: `NNYY_<trip name>` where NN is the running report number for the year.
+17. Short scratch folder for the PDF step. Default: `C:/Users/<you>/AppData/Local/Temp/claude/er-work`.
 
 ## 6. Booking sources
 
-17. Travel-agency confirmation sender (card travel service, corporate booking tool). Default: find it by searching Gmail for `"your trip" OR "itinerary" newer_than:180d` and asking the user which sender is theirs.
-18. Airlines, hotel chains, rideshare apps, phone carrier. Default: whatever the last 180 days of Gmail show from `references/receipt-sources.md`'s sender list; confirm the list with the user.
+18. Travel-agency confirmation sender (card travel service, corporate booking tool). Default: find it by searching Gmail for `"your trip" OR "itinerary" newer_than:180d` and asking the user which sender is theirs.
+19. Airlines, hotel chains, rideshare apps, phone carrier. Default: whatever the last 180 days of Gmail show from `references/receipt-sources.md`'s sender list; confirm the list with the user.
 
 ## 7. Policy
 
-19. Per diem: claimed? Default: yes, destination subrate, quantity = nights, none for same-day local events.
-20. Cell phone: claimed monthly? Default: yes, flat amount the user names (or full bill), international roaming add-ons claimed in full as a separate line, receipt = the carrier's "bill is ready" email.
-21. Meals: receipts for team meals, or per diem only? Default: receipts.
-22. Management approval line: required? Default: yes, a `$0.00` line whose receipt is a screenshot of the approver's reply; the user pastes the image into chat or drops it in the trip folder.
-23. Anything the approver has trimmed or asked for before (for `policy.notes`).
+20. Per diem: claimed? Default: yes, destination subrate, quantity = nights, none for same-day local events.
+21. Cell phone: claimed monthly? Default: yes, flat amount the user names (or full bill), international roaming add-ons claimed in full as a separate line, receipt = the carrier's "bill is ready" email.
+22. Meals: receipts for team meals, or per diem only? Default: receipts.
+23. Management approval line: required? Default: yes, a `$0.00` line whose receipt is a screenshot of the approver's reply; the user pastes the image into chat or drops it in the trip folder.
+24. Anything the approver has trimmed or asked for before (for `policy.notes`).
 
 ## 8. Categories (from the user's own Expensify)
 

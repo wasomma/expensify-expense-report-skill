@@ -50,7 +50,7 @@ Follow the classic section of `references/expensify-web-entry.md` exactly (Claud
 
 ### 5. Verify and hand off
 1. Reload the classic report page and read it: every line present once, amounts match the reconciliation, total matches, title matches the pattern in `config.policy.title_pattern` (rename if the user agreed). What the reloaded page shows is on the server.
-2. Note Expensify's warnings ("Awaiting merge with card transaction", "Date differs from scanned receipt"); they do not block submission but tell the user. The first can be cleared with **Mark As Cash** in each line's Edit Expense dialog if the user asks (see the entry reference).
+2. Note Expensify's warnings ("Awaiting merge with card transaction", "Date differs from scanned receipt"); they do not block submission. If `config.expensify.always_mark_as_cash` is true, clear "Awaiting merge" on every line with **Mark As Cash** in each line's Edit Expense dialog (see the entry reference) without asking, and check after a reload that none is left. Otherwise tell the user and offer to clear it. "Date differs from scanned receipt" stays; tell the user.
 3. Update the reconciliation file with what is entered and what is still open (approval screenshot, missing receipts).
 4. Report: lines entered, total, open items, and that Submit is theirs. Send a push notification if the harness offers one.
 5. Close the tabs you opened except the Expensify report tab.
@@ -66,7 +66,9 @@ Follow the classic section of `references/expensify-web-entry.md` exactly (Claud
 | Expensify Mark As Cash | Works on classic, in each line's Edit Expense dialog (2026-11-19) |
 | Expensify per diem | Works in New Expensify (destination subrate, quantity per `config.policy.per_diem.quantity`); classic Per Diem tab not yet verified |
 | Expensify report rename | Recipe verified in New Expensify only; try classic first and record what works |
-| Expensify report creation | Classic's Create Report button seen but not yet used; check workspace and approver on first use |
+| Expensify report creation | Classic's Create Report button seen but not yet used; check workspace and approver on first use. New Expensify fallback verified (Create menu > Create report, 2026-10-23) |
+| Expensify meal attendees | Verified in New Expensify (fallback, 2026-10-23); classic's Attendees field not yet tried |
+| New Expensify fallback in general | Shows lines as saved before the server has them, and full reloads froze the tab; move in-app with `history.pushState` and confirm every line on the classic report page (2026-11-07) |
 | Expensify Submit | Never; the user clicks it |
 | Travel-agency and rideshare websites | Need the user's login each time; the emails suffice |
 | Management approval evidence | Comes from chat or the work mailbox; the user supplies it (paste an image, drop a file in the folder) or asks for the work mailbox to be searched |
